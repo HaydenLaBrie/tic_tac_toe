@@ -1,18 +1,24 @@
+//need to make it switch between user and computer untill a winner or all spots are taken
+//need to create the computer pick a spot, simple random seeded by time
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 char** make_board();
 void print_board(char**);
 int goes_first();
+int change_map(int, char**);
 
 int main() {
     char** arr = make_board();
     print_board(arr);
     int go = goes_first();
+    int spot = -1;
     if(go == 1){
         //player goes first
-        printf("You are X! Enter where you would like to place your X: "); //need to work on the logic where the player chooses their spot and the computer makes a random choice
-        //also need to make it determine a winner and stop once a winner has been solved or tie
+        printf("You are X! Enter where you would like to place your X: ");
+        scanf("%d", &spot);//player chooses where to put x
+        change_map(spot, arr);
+        print_board(arr);
     }
     else{
         //computer goes first
@@ -54,3 +60,47 @@ int goes_first(){
         return 0;
     }
 }
+
+int change_map(int x, char** arr){
+    if(x == 1 && *(*(arr + 0) + 1) == '1'){
+        *(*(arr + 0) + 1) = 'X';
+        return 0;
+    }
+    else if(x == 2 && *(*(arr + 0) + 5) == '2'){
+        *(*(arr + 0) + 5) = 'X';
+        return 0;
+    }
+    else if(x == 3 && *(*(arr + 0) + 9) == '3'){
+        *(*(arr + 0) + 9) = 'X';
+        return 0;
+    }
+    else if(x == 4 && *(*(arr + 1) + 1) == '4'){
+        *(*(arr + 1) + 1) = 'X';
+        return 0;
+    }
+    else if(x == 5 && *(*(arr + 1) + 5) == '5'){
+        *(*(arr + 1) + 5) = 'X';
+        return 0;
+    }
+    else if(x == 6 && *(*(arr + 1) + 9) == '6'){
+        *(*(arr + 1) + 9) = 'X';
+        return 0;
+    }
+    else if(x == 7 && *(*(arr + 2) + 1) == '7'){
+        *(*(arr + 2) + 1) = 'X';
+        return 0;
+    }
+    else if(x == 8 && *(*(arr + 2) + 5) == '8'){
+        *(*(arr + 2) + 5) = 'X';
+        return 0;
+    }
+    else if(x == 9 && *(*(arr + 2) + 9) == '9'){
+        *(*(arr + 2) + 9) = 'X';
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+
+
