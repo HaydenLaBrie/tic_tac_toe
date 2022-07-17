@@ -1,27 +1,48 @@
-//need to make it switch between user and computer untill a winner or all spots are taken
-//need to create the computer pick a spot, simple random seeded by time
+//improve rng speed
+//determine when there is a winner
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 char** make_board();
 void print_board(char**);
 int goes_first();
-int change_map(int, char**);
-
+int put_x(int, char**);
+int put_o(int, char**);
+int cpu_rng();
 int main() {
     char** arr = make_board();
+    printf("Start of game. Board is empty. You are X. Computer is O\n");
     print_board(arr);
     int go = goes_first();
     int spot = -1;
-    if(go == 1){
-        //player goes first
-        printf("You are X! Enter where you would like to place your X: ");
-        scanf("%d", &spot);//player chooses where to put x
-        change_map(spot, arr);
-        print_board(arr);
-    }
-    else{
-        //computer goes first
+    int winner = 0;
+    while(winner == 0){
+        if(go == 1){
+            //player goes first
+            printf("Your turn, pick spot: ");
+            scanf("%d", &spot);//player chooses where to put x
+            put_x(spot, arr);
+            print_board(arr);
+            go--;
+        }
+        else{
+            printf("...........................\n");
+            printf("Computers turn\n");
+            spot = cpu_rng();
+            if (put_o(spot, arr) == 0){
+                ;
+            }
+            else{
+                int complete = 1;
+                while(complete == 1){
+                    spot = cpu_rng();
+                    complete = put_o(spot, arr);
+                }
+            }
+            print_board(arr);
+            printf("...........................\n");
+            go++;
+        }
     }
     return 0;
 }
@@ -61,7 +82,7 @@ int goes_first(){
     }
 }
 
-int change_map(int x, char** arr){
+int put_x(int x, char** arr){
     if(x == 1 && *(*(arr + 0) + 1) == '1'){
         *(*(arr + 0) + 1) = 'X';
         return 0;
@@ -103,4 +124,51 @@ int change_map(int x, char** arr){
     }
 }
 
+int put_o(int x, char** arr){
+    if(x == 1 && *(*(arr + 0) + 1) == '1'){
+        *(*(arr + 0) + 1) = 'O';
+        return 0;
+    }
+    else if(x == 2 && *(*(arr + 0) + 5) == '2'){
+        *(*(arr + 0) + 5) = 'O';
+        return 0;
+    }
+    else if(x == 3 && *(*(arr + 0) + 9) == '3'){
+        *(*(arr + 0) + 9) = 'O';
+        return 0;
+    }
+    else if(x == 4 && *(*(arr + 1) + 1) == '4'){
+        *(*(arr + 1) + 1) = 'O';
+        return 0;
+    }
+    else if(x == 5 && *(*(arr + 1) + 5) == '5'){
+        *(*(arr + 1) + 5) = 'O';
+        return 0;
+    }
+    else if(x == 6 && *(*(arr + 1) + 9) == '6'){
+        *(*(arr + 1) + 9) = 'O';
+        return 0;
+    }
+    else if(x == 7 && *(*(arr + 2) + 1) == '7'){
+        *(*(arr + 2) + 1) = 'O';
+        return 0;
+    }
+    else if(x == 8 && *(*(arr + 2) + 5) == '8'){
+        *(*(arr + 2) + 5) = 'O';
+        return 0;
+    }
+    else if(x == 9 && *(*(arr + 2) + 9) == '9'){
+        *(*(arr + 2) + 9) = 'O';
+        return 0;
+    }
+    else{
+        return 1;
+    }
+}
+
+int cpu_rng(){
+    srand(time(0));
+    int num = rand() % 10;
+    return num;
+}
 
