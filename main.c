@@ -1,4 +1,3 @@
-//improve rng speed
 //determine when there is a winner
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,15 +28,25 @@ int main() {
             printf("...........................\n");
             printf("Computers turn\n");
             spot = cpu_rng();
-            if (put_o(spot, arr) == 0){
-                ;
+            int found = -1;
+            if(put_o(spot, arr) == 0){
+                found = 1;
             }
             else{
-                int complete = 1;
-                while(complete == 1){
-                    spot = cpu_rng();
-                    complete = put_o(spot, arr);
+                found = 0;
+            }
+            int diff = 1;
+            while(found == 0){
+                if(put_o(spot + diff, arr) == 0){
+                    found = 1;
                 }
+                else if(put_o(spot - diff, arr) == 0){
+                    found = 1;
+                }
+                else{
+                    ;
+                }
+                diff++;
             }
             print_board(arr);
             printf("...........................\n");
@@ -172,3 +181,7 @@ int cpu_rng(){
     return num;
 }
 
+int check_winner(char** arr){
+
+    return 1;
+}
