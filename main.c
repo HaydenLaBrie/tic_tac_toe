@@ -8,6 +8,7 @@ int goes_first();
 int put_x(int, char**);
 int put_o(int, char**);
 int cpu_rng();
+int check_winner(char**);
 int main() {
     char** arr = make_board();
     printf("Start of game. Board is empty. You are X. Computer is O\n");
@@ -15,9 +16,11 @@ int main() {
     int go = goes_first();
     int spot = -1;
     int winner = 0;
-    while(winner == 0){
+    int counter = 0;
+    while(counter < 9 && check_winner(arr) == 0){
         if(go == 1){
             //player goes first
+            printf("...........................\n");
             printf("Your turn, pick spot: ");
             scanf("%d", &spot);//player chooses where to put x
             put_x(spot, arr);
@@ -49,9 +52,19 @@ int main() {
                 diff++;
             }
             print_board(arr);
-            printf("...........................\n");
             go++;
         }
+        counter++;
+    }
+    printf("...........................\n");
+    if(check_winner(arr) == 1){
+        printf("You won!\n");
+    }
+    else if(check_winner(arr) == 2){
+        printf("You lost :(\n");
+    }
+    else{
+        printf("Tie!\n");
     }
     return 0;
 }
@@ -181,7 +194,57 @@ int cpu_rng(){
     return num;
 }
 
-int check_winner(char** arr){
-
-    return 1;
+int check_winner(char** arr){ //no solution = 0, x wins = 1, o wins = 2
+    //top horizontal
+    if(*(*(arr + 0) + 1) == 'X' && *(*(arr + 0) + 5) == 'X' && *(*(arr + 0) + 9) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 0) + 1) == 'O' && *(*(arr + 0) + 5) == 'O' && *(*(arr + 0) + 9) == 'O'){
+        return 2;
+    }
+    //middle horizontal
+    else if(*(*(arr + 1) + 1) == 'X' && *(*(arr + 1) + 5) == 'X' && *(*(arr + 1) + 9) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 1) + 1) == 'O' && *(*(arr + 1) + 5) == 'O' && *(*(arr + 1) + 9) == 'O'){
+        return 2;
+    }
+    //bottom horizontal
+    else if(*(*(arr + 2) + 1) == 'X' && *(*(arr + 2) + 5) == 'X' && *(*(arr + 2) + 9) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 2) + 1) == 'O' && *(*(arr + 2) + 5) == 'O' && *(*(arr + 2) + 9) == 'O'){
+        return 2;
+    }
+    //left vertical
+    else if(*(*(arr + 0) + 1) == 'X' && *(*(arr + 1) + 1) == 'X' && *(*(arr + 2) + 1) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 0) + 1) == 'O' && *(*(arr + 1) + 1) == 'O' && *(*(arr + 2) + 1) == 'O'){
+        return 2;
+    }
+    //middle vertical
+    else if(*(*(arr + 0) + 5) == 'X' && *(*(arr + 1) + 5) == 'X' && *(*(arr + 2) + 5) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 0) + 5) == 'O' && *(*(arr + 1) + 5) == 'O' && *(*(arr + 2) + 5) == 'O'){
+        return 2;
+    }
+    //right vertical
+    else if(*(*(arr + 0) + 9) == 'X' && *(*(arr + 1) + 9) == 'X' && *(*(arr + 2) + 9) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 0) + 9) == 'O' && *(*(arr + 1) + 9) == 'O' && *(*(arr + 2) + 9) == 'O'){
+        return 2;
+    }
+    //slope solution
+    else if(*(*(arr + 0) + 1) == 'X' && *(*(arr + 1) + 5) == 'X' && *(*(arr + 2) + 9) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 0) + 1) == 'O' && *(*(arr + 1) + 5) == 'O' && *(*(arr + 2) + 9) == 'O'){
+        return 2;
+    }
+    //no solution
+    else
+        return 0;
 }
