@@ -1,4 +1,3 @@
-//determine when there is a winner
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -15,7 +14,6 @@ int main() {
     print_board(arr);
     int go = goes_first();
     int spot = -1;
-    int winner = 0;
     int counter = 0;
     while(counter < 9 && check_winner(arr) == 0){
         if(go == 1){
@@ -242,6 +240,12 @@ int check_winner(char** arr){ //no solution = 0, x wins = 1, o wins = 2
         return 1;
     }
     else if(*(*(arr + 0) + 1) == 'O' && *(*(arr + 1) + 5) == 'O' && *(*(arr + 2) + 9) == 'O'){
+        return 2;
+    }
+    else if(*(*(arr + 0) + 9) == 'X' && *(*(arr + 1) + 5) == 'X' && *(*(arr + 2) + 1) == 'X'){
+        return 1;
+    }
+    else if(*(*(arr + 0) + 9) == 'O' && *(*(arr + 1) + 5) == 'O' && *(*(arr + 2) + 1) == 'O'){
         return 2;
     }
     //no solution
